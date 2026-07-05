@@ -51,7 +51,7 @@ if (hamburger) {
 }
 
 // ===================================
-// THEME SWITCHER - NEW FEATURE
+// THEME SWITCHER - WITH BACKGROUNDS
 // ===================================
 const themeConfig = {
     themes: [
@@ -61,6 +61,9 @@ const themeConfig = {
                 primary: '#6366f1',
                 secondary: '#ec4899',
                 accent: '#10b981',
+                bgPrimary: '#ffffff',
+                bgSecondary: '#f8fafc',
+                bgTertiary: '#f1f5f9',
             }
         },
         {
@@ -69,6 +72,9 @@ const themeConfig = {
                 primary: '#0ea5e9',
                 secondary: '#06b6d4',
                 accent: '#14b8a6',
+                bgPrimary: '#f0f9ff',
+                bgSecondary: '#e0f2fe',
+                bgTertiary: '#cffafe',
             }
         },
         {
@@ -77,6 +83,9 @@ const themeConfig = {
                 primary: '#f97316',
                 secondary: '#ef4444',
                 accent: '#eab308',
+                bgPrimary: '#fef3c7',
+                bgSecondary: '#fee2e2',
+                bgTertiary: '#fecaca',
             }
         },
         {
@@ -85,6 +94,9 @@ const themeConfig = {
                 primary: '#059669',
                 secondary: '#0d9488',
                 accent: '#7c3aed',
+                bgPrimary: '#ecfdf5',
+                bgSecondary: '#d1fae5',
+                bgTertiary: '#a7f3d0',
             }
         },
         {
@@ -93,6 +105,9 @@ const themeConfig = {
                 primary: '#9333ea',
                 secondary: '#ec4899',
                 accent: '#06b6d4',
+                bgPrimary: '#faf5ff',
+                bgSecondary: '#f3e8ff',
+                bgTertiary: '#e9d5ff',
             }
         },
         {
@@ -101,6 +116,31 @@ const themeConfig = {
                 primary: '#1e40af',
                 secondary: '#7c3aed',
                 accent: '#0891b2',
+                bgPrimary: '#0c1929',
+                bgSecondary: '#1a2942',
+                bgTertiary: '#27395b',
+            }
+        },
+        {
+            name: 'Coral Dream',
+            colors: {
+                primary: '#ff6b6b',
+                secondary: '#ff922b',
+                accent: '#fd7e14',
+                bgPrimary: '#fff5f5',
+                bgSecondary: '#ffe0cc',
+                bgTertiary: '#ffc9a3',
+            }
+        },
+        {
+            name: 'Mint Fresh',
+            colors: {
+                primary: '#20c997',
+                secondary: '#51cf66',
+                accent: '#82c91e',
+                bgPrimary: '#f1f8f4',
+                bgSecondary: '#d3f9d8',
+                bgTertiary: '#b2f2bb',
             }
         }
     ],
@@ -129,6 +169,7 @@ function initThemeButton() {
                     <span class="color-dot" style="background-color: ${theme.colors.primary}"></span>
                     <span class="color-dot" style="background-color: ${theme.colors.secondary}"></span>
                     <span class="color-dot" style="background-color: ${theme.colors.accent}"></span>
+                    <span class="color-dot" style="background-color: ${theme.colors.bgSecondary}; border: 1px solid #ccc;"></span>
                 </span>
                 <span class="theme-name">${theme.name}</span>
             `;
@@ -159,10 +200,15 @@ function applyTheme(themeIndex) {
     const theme = themeConfig.themes[themeIndex];
     const root = document.documentElement;
     
-    // Set CSS variables
+    // Set CSS variables for colors
     root.style.setProperty('--primary', theme.colors.primary);
     root.style.setProperty('--secondary', theme.colors.secondary);
     root.style.setProperty('--accent', theme.colors.accent);
+    
+    // Set CSS variables for backgrounds
+    root.style.setProperty('--bg-primary', theme.colors.bgPrimary);
+    root.style.setProperty('--bg-secondary', theme.colors.bgSecondary);
+    root.style.setProperty('--bg-tertiary', theme.colors.bgTertiary);
     
     // Save to localStorage
     localStorage.setItem('selectedTheme', themeIndex);
@@ -437,4 +483,5 @@ window.addEventListener('scroll', () => {
 });
 
 console.log('Portfolio website loaded successfully! 🚀');
-console.log('Theme system active - Use palette button to change themes');
+console.log('Theme system active - 8 beautiful themes with full background colors!');
+console.log('Click the palette button to explore all color schemes!');
