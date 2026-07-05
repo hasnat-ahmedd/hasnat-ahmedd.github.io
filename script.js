@@ -51,6 +51,161 @@ if (hamburger) {
 }
 
 // ===================================
+// THEME SWITCHER - NEW FEATURE
+// ===================================
+const themeConfig = {
+    themes: [
+        {
+            name: 'Default (Indigo & Pink)',
+            colors: {
+                primary: '#6366f1',
+                secondary: '#ec4899',
+                accent: '#10b981',
+            }
+        },
+        {
+            name: 'Ocean (Blue & Cyan)',
+            colors: {
+                primary: '#0ea5e9',
+                secondary: '#06b6d4',
+                accent: '#14b8a6',
+            }
+        },
+        {
+            name: 'Sunset (Orange & Red)',
+            colors: {
+                primary: '#f97316',
+                secondary: '#ef4444',
+                accent: '#eab308',
+            }
+        },
+        {
+            name: 'Forest (Green & Teal)',
+            colors: {
+                primary: '#059669',
+                secondary: '#0d9488',
+                accent: '#7c3aed',
+            }
+        },
+        {
+            name: 'Purple Dreams',
+            colors: {
+                primary: '#9333ea',
+                secondary: '#ec4899',
+                accent: '#06b6d4',
+            }
+        },
+        {
+            name: 'Midnight (Dark Blue)',
+            colors: {
+                primary: '#1e40af',
+                secondary: '#7c3aed',
+                accent: '#0891b2',
+            }
+        }
+    ],
+    currentTheme: 0
+};
+
+// Initialize theme button
+function initThemeButton() {
+    // Create theme button if it doesn't exist
+    if (!document.querySelector('.theme-switcher')) {
+        const themeButton = document.createElement('button');
+        themeButton.className = 'theme-switcher';
+        themeButton.innerHTML = '<i class="fas fa-palette"></i>';
+        themeButton.title = 'Switch Theme';
+        document.body.appendChild(themeButton);
+
+        // Add theme menu
+        const themeMenu = document.createElement('div');
+        themeMenu.className = 'theme-menu';
+        
+        themeConfig.themes.forEach((theme, index) => {
+            const themeOption = document.createElement('button');
+            themeOption.className = 'theme-option';
+            themeOption.innerHTML = `
+                <span class="theme-colors">
+                    <span class="color-dot" style="background-color: ${theme.colors.primary}"></span>
+                    <span class="color-dot" style="background-color: ${theme.colors.secondary}"></span>
+                    <span class="color-dot" style="background-color: ${theme.colors.accent}"></span>
+                </span>
+                <span class="theme-name">${theme.name}</span>
+            `;
+            themeOption.addEventListener('click', () => {
+                applyTheme(index);
+                themeMenu.classList.remove('active');
+            });
+            themeMenu.appendChild(themeOption);
+        });
+
+        document.body.appendChild(themeMenu);
+
+        // Toggle menu on button click
+        themeButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            themeMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', () => {
+            themeMenu.classList.remove('active');
+        });
+    }
+}
+
+// Apply theme
+function applyTheme(themeIndex) {
+    const theme = themeConfig.themes[themeIndex];
+    const root = document.documentElement;
+    
+    // Set CSS variables
+    root.style.setProperty('--primary', theme.colors.primary);
+    root.style.setProperty('--secondary', theme.colors.secondary);
+    root.style.setProperty('--accent', theme.colors.accent);
+    
+    // Save to localStorage
+    localStorage.setItem('selectedTheme', themeIndex);
+    localStorage.setItem('themeColors', JSON.stringify(theme.colors));
+    
+    themeConfig.currentTheme = themeIndex;
+    
+    // Show notification
+    showThemeNotification(theme.name);
+}
+
+// Show theme change notification
+function showThemeNotification(themeName) {
+    const notification = document.createElement('div');
+    notification.className = 'theme-notification';
+    notification.innerHTML = `<i class="fas fa-check-circle"></i> Theme changed to: ${themeName}`;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 2000);
+}
+
+// Load saved theme on page load
+function loadSavedTheme() {
+    const savedTheme = localStorage.getItem('selectedTheme');
+    if (savedTheme !== null) {
+        applyTheme(parseInt(savedTheme));
+    }
+}
+
+// Initialize theme on page load
+window.addEventListener('load', () => {
+    loadSavedTheme();
+    initThemeButton();
+});
+
+// ===================================
 // FORM SUBMISSION
 // ===================================
 const contactForm = document.getElementById('contactForm');
@@ -238,6 +393,10 @@ document.addEventListener('keydown', (e) => {
         if (navLinks && navLinks.style.display === 'flex') {
             navLinks.style.display = 'none';
         }
+        const themeMenu = document.querySelector('.theme-menu');
+        if (themeMenu) {
+            themeMenu.classList.remove('active');
+        }
     }
 });
 
@@ -278,3 +437,4 @@ window.addEventListener('scroll', () => {
 });
 
 console.log('Portfolio website loaded successfully! 🚀');
+console.log('Theme system active - Use palette button to change themes');
